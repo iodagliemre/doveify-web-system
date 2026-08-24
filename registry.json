@@ -1,0 +1,10 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "doveify",
+  "homepage": "https://github.com/iodagliemre/doveify-web-system",
+  "include": [
+    "registry/rules/registry.json",
+    "registry/patterns/registry.json",
+    "registry/components/registry.json"
+  ]
+}

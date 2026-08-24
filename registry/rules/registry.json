@@ -1,0 +1,136 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "items": [
+    {
+      "name": "core-rules",
+      "type": "registry:item",
+      "title": "Doveify Core Rules",
+      "description": "Otorite sırası, DESIGN-LOCK davranışı, estetik kısıtları, dış kaynak politikası ve sisteme alma değerlendirmesi. Doveify ile çalışan her projede bağlayıcıdır.",
+      "author": "Doveify <https://github.com/iodagliemre/doveify-web-system>",
+      "categories": ["rule", "system"],
+      "meta": {
+        "doveify": {
+          "kind": "rule",
+          "version": 1,
+          "tier": "CORE",
+          "enforces": ["authority-order", "design-lock", "aesthetics", "intake-evaluation"]
+        }
+      },
+      "files": [
+        {
+          "path": "core.md",
+          "type": "registry:file",
+          "target": "~/.doveify/rules/core.md"
+        }
+      ]
+    },
+    {
+      "name": "motion-rules",
+      "type": "registry:item",
+      "title": "Doveify Motion Rules",
+      "description": "Motion gerekçe kuralı, varsayılan teknik yaklaşım, yasaklar ve istisnasız prefers-reduced-motion yükümlülüğü.",
+      "author": "Doveify <https://github.com/iodagliemre/doveify-web-system>",
+      "categories": ["rule", "motion"],
+      "meta": {
+        "doveify": {
+          "kind": "rule",
+          "version": 1,
+          "tier": "CORE",
+          "enforces": ["motion-justification", "no-scroll-jacking", "prefers-reduced-motion"]
+        }
+      },
+      "files": [
+        {
+          "path": "motion.md",
+          "type": "registry:file",
+          "target": "~/.doveify/rules/motion.md"
+        }
+      ]
+    },
+    {
+      "name": "quality-gates",
+      "type": "registry:item",
+      "title": "Doveify Quality Gates",
+      "description": "Performans ve erişilebilirlik eşikleri, çatışma davranışı ve denetim kalemleri. Hedef değil, kapı olarak uygulanır.",
+      "author": "Doveify <https://github.com/iodagliemre/doveify-web-system>",
+      "categories": ["rule", "qa"],
+      "meta": {
+        "doveify": {
+          "kind": "rule",
+          "version": 1,
+          "tier": "CORE",
+          "enforces": ["lighthouse-mobile-90", "cls-zero", "wcag-aa", "semantic-html", "dependency-discipline"]
+        }
+      },
+      "files": [
+        {
+          "path": "quality-gates.md",
+          "type": "registry:file",
+          "target": "~/.doveify/rules/quality-gates.md"
+        }
+      ]
+    },
+    {
+      "name": "pattern-metadata",
+      "type": "registry:item",
+      "title": "Doveify Pattern Metadata Standard",
+      "description": "Bir Doveify PATTERN'in ne olduğu, kategori taksonomisi, 11 zorunlu metadata alanı ve kabul kapısı.",
+      "author": "Doveify <https://github.com/iodagliemre/doveify-web-system>",
+      "categories": ["rule", "system", "pattern"],
+      "meta": {
+        "doveify": {
+          "kind": "rule",
+          "version": 1,
+          "tier": "CORE",
+          "enforces": ["pattern-contract", "pattern-taxonomy", "template-risk-declaration"],
+          "patternCategories": ["hero", "navigation", "section", "typography", "imagery"]
+        }
+      },
+      "files": [
+        {
+          "path": "pattern-metadata.md",
+          "type": "registry:file",
+          "target": "~/.doveify/rules/pattern-metadata.md"
+        }
+      ]
+    },
+    {
+      "name": "doveify-rules",
+      "type": "registry:item",
+      "title": "Doveify Rules (bundle)",
+      "description": "Dört Doveify kural dosyasının tamamını tek komutla kurar. Tüketici projeler için varsayılan giriş noktası.",
+      "author": "Doveify <https://github.com/iodagliemre/doveify-web-system>",
+      "categories": ["rule", "system", "bundle"],
+      "meta": {
+        "doveify": {
+          "kind": "rule-bundle",
+          "version": 1,
+          "tier": "CORE",
+          "bundles": ["core-rules", "motion-rules", "quality-gates", "pattern-metadata"]
+        }
+      },
+      "files": [
+        {
+          "path": "core.md",
+          "type": "registry:file",
+          "target": "~/.doveify/rules/core.md"
+        },
+        {
+          "path": "motion.md",
+          "type": "registry:file",
+          "target": "~/.doveify/rules/motion.md"
+        },
+        {
+          "path": "quality-gates.md",
+          "type": "registry:file",
+          "target": "~/.doveify/rules/quality-gates.md"
+        },
+        {
+          "path": "pattern-metadata.md",
+          "type": "registry:file",
+          "target": "~/.doveify/rules/pattern-metadata.md"
+        }
+      ]
+    }
+  ]
+}
