@@ -5,6 +5,7 @@
 **Dayanak:** [ADR-001 — Registry Architecture](../decisions/001-registry-architecture.md)
 **Araştırma:** [shadcn Registry — Teknik Araştırma](../research/shadcn-registry-research.md)
 **Doğrulandı:** `shadcn@4.19.0 registry validate` — temiz geçti (4 registry dosyası, 5 item)
+**Dağıtım kanıtı:** GitHub source registry üzerinden uçtan uca **PASS** — bkz. §8.5
 
 ---
 
@@ -233,7 +234,8 @@ birbirinden ayrı tutulur; **karıştırılmaları v1'in en olası hata kaynağ�
 **Namespace kullanılmaz.**
 
 Bu repo registry'nin **yazım yüzeyidir**, tüketicisi değil. Kendi kendini tüketmesi
-anlamsızdır. Doğrulama yerinde yapılır (§7); dağıtım denenmez.
+anlamsızdır. Doğrulama yerinde yapılır (§7); dağıtım bu repodan değil, ayrı bir
+tüketici projeden denenir (§8.5).
 
 Bu nedenle **bu reponun `components.json` dosyasına `@doveify` eklenmedi.** Oradaki
 `@magicui` / `@motion-primitives` / `@aceternity` girdileri araştırma ve
@@ -242,10 +244,10 @@ Bu nedenle **bu reponun `components.json` dosyasına `@doveify` eklenmedi.** Ora
 Tüketici tarafında yerel bir kopyayı test etmek (`file:` veya göreli yol ile
 namespace) CLI 4.19.0'da **doğrulanmadı** — bkz. §10 açık madde.
 
-### 8.2 GitHub source registry (hedef yol — ADR-001'in kararı)
+### 8.2 GitHub source registry (aktif dağıtım yolu — doğrulandı)
 
-**Namespace girdisi gerekmez. Build gerekmez.** Repo kökündeki `registry.json`
-doğrudan giriş noktasıdır.
+**Namespace girdisi gerekmez. Build gerekmez. Token gerekmez.** Repo kökündeki
+`registry.json` doğrudan giriş noktasıdır.
 
 ```bash
 npx shadcn@4.19.0 add iodagliemre/doveify-web-system/doveify-rules#<40-karakter-sha>
@@ -257,7 +259,9 @@ npx shadcn@4.19.0 add iodagliemre/doveify-web-system/doveify-rules#<40-karakter-
 - Private repo aynı mekanizma + `GH_TOKEN` (Contents: Read-only).
 - Kurulum öncesi `--dry-run` ile önizleme.
 
-**Ön koşul:** repo GitHub'a push edilmiş olmalı. Şu an remote tanımlı değil — bkz. §10.
+**Ön koşul karşılandı.** `origin` tanımlı
+(`https://github.com/iodagliemre/doveify-web-system.git`), `main` push edildi ve repo
+**public**. Bu yol §8.5'te uçtan uca doğrulandı.
 
 ### 8.3 Namespace kısayolu (v1 kapsamı dışında)
 
@@ -278,8 +282,47 @@ bağlanmayacaktır.
 | Yol | Namespace | Build | Durum |
 |---|---|---|---|
 | Yerel geliştirme | yok | yok | **Aktif** — `registry validate` ile doğrulandı |
-| GitHub source registry | yok (`owner/repo/item#ref`) | yok | **Hedef** — remote gerekiyor |
+| GitHub source registry | yok (`owner/repo/item#ref`) | yok | **Aktif** — §8.5'te uçtan uca doğrulandı |
 | `@doveify` namespace kısayolu | var | gerekli | **Kapsam dışı** (ADR-001 §6) |
+
+### 8.5 Distribution proof
+
+GitHub source registry yolu, ana repo dışında ayrı bir throwaway tüketici projede
+(`D:\doveify-registry-consumer-test`) uçtan uca test edildi.
+
+**Test edilen SHA:** `fe08b53aa3736ddea419585e08f85abcdf7e566a`
+
+```bash
+npx shadcn@4.19.0 view 'iodagliemre/doveify-web-system/doveify-rules#fe08b53aa3736ddea419585e08f85abcdf7e566a'
+npx shadcn@4.19.0 add  'iodagliemre/doveify-web-system/doveify-rules#fe08b53aa3736ddea419585e08f85abcdf7e566a' --yes
+```
+
+**Sonuç:**
+
+```
+PUBLIC ACCESS:               PASS
+SOURCE REGISTRY RESOLUTION:  PASS
+DOVEIFY-RULES RESOLUTION:    PASS
+TARGET PLACEMENT:            PASS
+DISTRIBUTION PROOF:          PASS
+```
+
+**Kanıtlananlar:**
+
+- Repo anonim erişilebilir (`private: false`, `visibility: public`); kök `registry.json`,
+  üç chunk ve dört rule markdown'ı SHA-pinned adresten **HTTP 200**
+- `include` zinciri çözüldü; `doveify-rules` bundle'ı bulundu ve dört dosya içerikle
+  gömülü döndü
+- Kurulum dört dosyayı **doğru hedeflere** yerleştirdi:
+  `~/.doveify/rules/{core,motion,quality-gates,pattern-metadata}.md`
+- Kurulan dosyalar GitHub raw içeriğiyle karşılaştırıldı: **SHA-256 4/4 identical**
+
+**Testin geçerliliği:** önceki turun yerel artifact'leri (`.doveify/` ve yerel build
+çıktısı `r/`) test öncesi kenara alındı; kurulum yerel bir JSON kaynağından gelemezdi.
+Ana repoya hiçbir test artifact'i yazılmadı.
+
+Bu, ADR-001'in dağıtım kararını doğrular: **sunucusuz, build'siz, token'sız, sürüm
+sabitlemeli.**
 
 ---
 
@@ -308,8 +351,8 @@ Metadata iki yerde yaşar: markdown dosyası **kanonik metindir**, registry item
 
 | # | Madde | Etki |
 |---|---|---|
-| 1 | **Git remote tanımlı değil.** `homepage` alanı `https://github.com/iodagliemre/doveify-web-system` olarak yazıldı — git kullanıcı adından türetilmiş **varsayım.** | Remote kurulunca `registry.json` ve item `author` alanları doğrulanmalı. §8.2 remote olmadan çalışmaz. |
-| 2 | Tüketici tarafında **yerel yol ile namespace** desteği CLI 4.19.0'da doğrulanmadı. | §8.1'de yerel uçtan uca dağıtım testi yapılamıyor. Ayrı bir deney gerekiyor. |
+| 1 | ~~Git remote tanımlı değil; `homepage` bir varsayım.~~ **KAPANDI.** `origin` tanımlı, `main` push edildi, repo public. `homepage` ve item `author` alanları gerçek repo ile doğrulandı — değişiklik gerekmedi. | — |
+| 2 | Tüketici tarafında **yerel yol ile namespace** desteği CLI 4.19.0'da doğrulanmadı. | Dağıtım yolu §8.5 ile kanıtlandığı için engelleyici değil; yalnızca yerel iterasyon ergonomisini etkiler. |
 | 3 | `registryDependencies` ile kardeş item referansı doğrulanmadı (§5.1). | Kompozisyon şimdilik bundle ile yapılıyor. |
 | 4 | `registry validate` estetik/motion/performans kurallarını denetlemiyor. | Ayrı QA katmanı gerekiyor (ADR-001). |
 | 5 | Bundle ile tekil item'ların kapsam eşitliği otomatik denetlenmiyor. | Yeni rule eklenince `doveify-rules` elle güncellenmeli. |
