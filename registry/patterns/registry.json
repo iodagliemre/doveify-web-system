@@ -1,4 +1,439 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
-  "items": []
+  "items": [
+    {
+      "name": "editorial-rhythm",
+      "type": "registry:item",
+      "title": "Editorial Rhythm",
+      "description": "Ardışık section'lar arasında ölçü, yoğunluk ve dikey nefes farkı kurarak sayfa gövdesine kadans veren kompozisyon tarifi.",
+      "author": "Doveify <https://github.com/iodagliemre/doveify-web-system>",
+      "categories": ["pattern", "section"],
+      "meta": {
+        "doveify": {
+          "kind": "pattern",
+          "version": 1,
+          "category": "section",
+          "problem": "Aynı genişlik, padding ve yoğunlukla dizilmiş bloklar sayfayı bir argüman değil bir liste gibi okutur; hiyerarşi tipografiden kutulara kayar.",
+          "useWhen": [
+            "Ardışık dört veya daha fazla içerik section'ı var",
+            "İçerikte gerçek hiyerarşi var; bloklar birbirinin eşiti değil",
+            "Okuyucu sayfayı doğrusal kat ediyor",
+            "İçeriğin uzunluğu üretim anında biliniyor"
+          ],
+          "avoidWhen": [
+            "İçerik gerçekten eşit ağırlıklı bir küme (katalog, arama sonucu, arşiv)",
+            "Tek section'lık sayfa; kıyas olmadan ritim algılanmaz",
+            "İçerik kullanıcı üretimli ve uzunluğu öngörülemiyor",
+            "Sayfanın işi okumak değil taramak"
+          ],
+          "designLockInputs": [
+            "İzin verilen ölçü (measure) aralığı",
+            "Dikey boşluk skalası ve adım sayısı",
+            "İzin verilen yoğunluk seviyeleri",
+            "Full-bleed izni",
+            "Sayfa başına section bütçesi",
+            "Ritmin yönü: hızlanan, yavaşlayan veya değişken"
+          ],
+          "responsivePrinciple": "Ritmi taşıyan göreli karşıtlıktır, mutlak değerler değil. Genişlik daraldıkça önce yatay varyasyon çöker ve ritim dikey boşluk ile yoğunluğa taşınır; okuma ölçüsü yatay çeşitlilik için asla feda edilmez.",
+          "accessibilityNotes": [
+            "Ritim hiyerarşinin tek sinyali olamaz; heading seviyeleri onu bağımsız taşır",
+            "Her section landmark'ı erişilebilir bir ad taşır",
+            "Full-bleed section'larda metin okunabilir ölçü içinde kalır",
+            "DOM sırası görsel sırayla aynıdır",
+            "Yoğunluk farkı kontrast düşürerek üretilmez; WCAG AA her section'da geçerlidir"
+          ],
+          "performanceNotes": [
+            "Değişken genişlikler yalnızca CSS ile kurulur; JS ölçümü kullanılmaz",
+            "En geniş section'lar en ağır görselleri davet eder; asset bütçesi ritimle planlanır",
+            "Section girişlerine animasyon eklenmez; motion gerekçe kuralı ve CLS riski",
+            "Değişken yükseklikler için yer önceden ayrılır"
+          ],
+          "templateRisk": "Jenerik sayfa her section'a aynı max-width ve padding verir (CLAUDE.md §2). Bu pattern'in kendi riski terstir: ritmin şablona dönüşmesi, en sık 'bir geniş bir dar' alternasyonu olarak. Denetim: hiçbir section'ın muamelesi index'inden tahmin edilebilir olmamalı.",
+          "customizationAxes": [
+            "Ölçü (measure)",
+            "Dikey boşluk",
+            "İçerik yoğunluğu",
+            "Hizalama ekseni",
+            "Bleed davranışı",
+            "Zemin ağırlığı",
+            "Section başlığının giriş noktası ve ölçeği",
+            "Ritmin yönü ve genliği"
+          ],
+          "antiPattern": "Hero'dan sonra gelen, her biri max-w-6xl mx-auto py-20 içinde üç kolonluk kart ızgarası taşıyan N adet birbirinin aynı section. CLAUDE.md §2'deki 'gereksiz card grid' ve 'aynı ritim' maddelerini birlikte ihlal eder.",
+          "variationLogic": "Ritim bir dizi özelliğidir, section başına bir stil değil. Varyasyon dizinin kendisinden gelir: hangi section en geniş, ritim hızlanıyor mu yavaşlıyor mu, karşıtlık yatay mı dikey mi taşınıyor, nefes nerede en derin.",
+          "selectionSignals": [
+            "Lock en az üç adımlı bir boşluk skalası tanımlıyor",
+            "Lock editorial / narrative / long-form register'ı belirtiyor",
+            "Lock bir okuma ölçüsü tanımlıyor",
+            "Lock tekdüze ızgarayı reddediyor",
+            "İçerik bloklarında gerçek ağırlık farkı var"
+          ],
+          "rejectionSignals": [
+            "Lock tek sabit container genişliği sabitliyor",
+            "Lock tek kolon sayılı katı grid dayatıyor",
+            "İçerik bir katalog veya dizin",
+            "Lock 'taranabilir, okunabilir değil' diyor",
+            "Section sayısı üçün altında"
+          ]
+        }
+      },
+      "files": [
+        {
+          "path": "section/editorial-rhythm.md",
+          "type": "registry:file",
+          "target": "~/.doveify/patterns/editorial-rhythm.md"
+        }
+      ]
+    },
+    {
+      "name": "asymmetric-editorial-hero",
+      "type": "registry:item",
+      "title": "Asymmetric Editorial Hero",
+      "description": "Açılışta tek bir giriş noktası kalacak biçimde ağırlığı bilinçli olarak eşitsiz dağıtan hero tarifi. Bir kolon oranı değil, bir ağırlık ilişkisidir.",
+      "author": "Doveify <https://github.com/iodagliemre/doveify-web-system>",
+      "categories": ["pattern", "hero"],
+      "meta": {
+        "doveify": {
+          "kind": "pattern",
+          "version": 1,
+          "category": "hero",
+          "problem": "Simetrik hero hiç odak vermez; 50/50 split iki yarışan odak verir ki sonuç odaksızlıkla aynıdır. Açılış, ilk viewport içinde tek bir giriş noktası kurmak zorundadır.",
+          "useWhen": [
+            "Sayfanın tek ve net bir giriş noktasına ihtiyacı var",
+            "Diğer her şeyi geçen bir birincil mesaj var",
+            "Marka register'ı faydacı değil, editoryal",
+            "Baskın tarafı taşıyacak güçte söz, görsel veya boşluk bütçesi var"
+          ],
+          "avoidWhen": [
+            "Gerçekten eşit iki mesaj var (iki kitle, iki eşit CTA)",
+            "Kullanıcı ne istediğini bilerek geliyor (giriş, panel, arama)",
+            "Baskın tarafı taşıyacak içerik yok; zayıf asimetri dengesizlik olarak okunur",
+            "Hero'nun altındaki içerik hero'dan güçlü"
+          ],
+          "designLockInputs": [
+            "Hangi öğenin baskın olduğu: söz, görsel veya boşluk",
+            "Baskınlık oranının alt ve üst sınırı",
+            "Asimetrinin ekseni: yatay, dikey veya optik",
+            "İzin verilen odak kayması",
+            "Boşluğun aktif öğe olarak kullanılabilirliği",
+            "CTA'nın baskın öğeyle ilişkisi",
+            "Display tipografi izni ve ölçek tavanı"
+          ],
+          "responsivePrinciple": "Asimetri bir konum değil bir ilişkidir. Genişlik yanal dengesizliği taşıyamadığında dengesizlik eşit bloklara çökmez; dikey eksene taşınır ve orada ölçek ile boşluk üzerinden sürer. İnvaryant şudur: her ölçekte tek bir giriş noktası kalır.",
+          "accessibilityNotes": [
+            "Tek h1; görsel olarak baskın öğe DOM sırasında da ilk anlamlı öğedir",
+            "Baskın öğe görselse içeriktir: gerçek alt alır, alt=\"\" almaz",
+            "Görsel üzerine metinde kontrast en kötü örtüşme bölgesine göre ölçülür",
+            "Optik denge için kullanılan offset focus sırasını bozmaz",
+            "Baskınlık ölçekle kuruluyorsa kullanıcı font tercihi korunur; göreli birim kullanılır",
+            "CTA baskın öğeden sonra geliyorsa klavye sırasında ulaşılabilir kalır"
+          ],
+          "performanceNotes": [
+            "Baskın öğe neredeyse her zaman LCP'dir: önceliklendirilir, lazy-load edilmez",
+            "Kutusu önceden ayrılır (aspect-ratio); CLS ≈ 0",
+            "Bütçe darsa baskınlık tipografiye taşınır; büyük tip ucuz, büyük görsel değil",
+            "LCP öğesine giriş animasyonu eklenmez",
+            "Boşluk baskın öğeyse maliyeti sıfırdır"
+          ],
+          "templateRisk": "Birinci risk: 'başlık solda, görsel sağda, pill CTA altta' biçimine çökmek — CLAUDE.md §2'nin üç maddesini birden ihlal eder. İkinci risk: asimetrinin kendisinin formüle dönüşmesi; her hero'nun 2/3–1/3 olması 50/50 olmasından iyi değildir. Denetim: hero yalnızca bir kolon oranıyla tarif edilebiliyorsa pattern uygulanmamıştır.",
+          "customizationAxes": [
+            "Hangi öğenin baskın olduğu (söz / görsel / boşluk)",
+            "Dengesizliğin ekseni",
+            "Baskınlık oranı ve genliği",
+            "Odak kayması",
+            "Boşluğun aktif katılımı",
+            "CTA'nın baskın öğeyle ilişkisi",
+            "Görselin kadrajı, ölçeği ve kenarla ilişkisi",
+            "Register'ı ölçeğin mi muamelenin mi taşıdığı"
+          ],
+          "antiPattern": "İki biçim: (1) ortalanmış h1 + alt başlık + iki pill buton + gradient blob — odak yok; (2) 50/50 split, solda başlık ve CTA sağda ekran görüntüsü — iki odak yarışır. İkisi de binlerce sitede birebir aynıdır.",
+          "variationLogic": "Pattern ilişkiyi kısıtlar, düzenlemeyi asla. Baskınlık tek bir kelimenin uç ölçeğinde, bir kenardan taşan görselde veya büyük ve bilinçli bir boşlukta olabilir. Üçü de bu pattern'dir; ortak olan tek giriş noktası disiplinidir.",
+          "selectionSignals": [
+            "Lock tek bir birincil mesaj tanımlıyor",
+            "Lock güçlü bir asset veya karakterli bir display face sağlıyor",
+            "Lock editorial / confident / restrained register'ı kullanıyor",
+            "Lock cömert negative space bütçesi ayırıyor",
+            "Hero birincil CTA'nın sahibi"
+          ],
+          "rejectionSignals": [
+            "Lock dengeli veya ortalanmış kompozisyon şart koşuyor",
+            "Lock iki eşit kitle veya iki eşit CTA tanımlıyor",
+            "Lock büyük tipografiyi yasaklıyor ve kullanılabilir hero görseli yok",
+            "Sayfa işlemsel; kullanıcı okumaya değil yapmaya geliyor",
+            "Hero içeriği üretim anında bilinmiyor veya kullanıcı üretimli"
+          ]
+        }
+      },
+      "files": [
+        {
+          "path": "hero/asymmetric-editorial-hero.md",
+          "type": "registry:file",
+          "target": "~/.doveify/patterns/asymmetric-editorial-hero.md"
+        }
+      ]
+    },
+    {
+      "name": "quiet-premium-navigation",
+      "type": "registry:item",
+      "title": "Quiet Premium Navigation",
+      "description": "Navigasyonun istirahatte ne kadar dikkat talep edebileceğini sınırlayan, ağırlığı ancak ihtiyaç anında kazandıran yönelim tarifi.",
+      "author": "Doveify <https://github.com/iodagliemre/doveify-web-system>",
+      "categories": ["pattern", "navigation"],
+      "meta": {
+        "doveify": {
+          "kind": "pattern",
+          "version": 1,
+          "category": "navigation",
+          "problem": "Nav, içerikle dikkat için yarışmadan bulunabilir kalmak zorundadır. Gürültülü nav uygulama chrome'u sinyali verip editoryal içeriği ucuzlatır; görünmez nav kullanıcıyı kaybeder.",
+          "useWhen": [
+            "İçerik ürünün kendisi (editoryal, portfolyo, marka sitesi)",
+            "Üst seviye nav kümesi tek bakışta taranabilir (kabaca yedi ve altı)",
+            "Marka register'ı ölçülülüğü ödüllendiriyor",
+            "Birincil eylem hero'nun veya içeriğin içinde yaşıyor"
+          ],
+          "avoidWhen": [
+            "IA derin veya karmaşık; yön bulma sayfanın birincil işi",
+            "Nav hedef değil sık kullanılan araç taşıyor",
+            "Kullanıcı okumaya değil yapmaya geliyor",
+            "Nav durum bilgisi taşımak zorunda (bildirim, oturum, sepet)",
+            "Erişilebilirlik veya yasal gereklilik sürekli görünür kontrol dayatıyor"
+          ],
+          "designLockInputs": [
+            "Üst seviye öğe sayısı tavanı",
+            "Nav'ın scroll boyunca kalıcı olup olmadığı",
+            "İstirahatteki ve etkileşimdeki ağırlık sınırları",
+            "Marka işaretinin sürekli görünürlüğü",
+            "İzin verilen açığa çıkarma (disclosure) mekanizması",
+            "Kontrast tabanı",
+            "Nav'ın hero ile ilişkisi"
+          ],
+          "responsivePrinciple": "Ölçülülük ölçeklenir, ulaşılabilirlik ölçeklenmez. Her ölçekte nav tek bir bilinçli eylemle ulaşılabilir ve mevcut konum keşfedilebilir kalır. Genişlik disclosure'ı zorunlu kıldığında tetikleyicinin varlığı azaltılmaz; sessizlik navigasyonu açan affordance'a asla uygulanmaz.",
+          "accessibilityNotes": [
+            "nav landmark'ı erişilebilir ad taşır; main'e atlama bağlantısı bulunur",
+            "Sessiz düşük kontrast demek değildir; tüm nav metni gerçek zemini karşısında WCAG AA sağlar",
+            "Mevcut sayfa aria-current ile bildirilir, yalnızca görsel ağırlıkla değil",
+            "Disclosure kontrolleri gerçek button'dır; aria-expanded, focus taşıma ve Escape zorunludur",
+            "Focus göstergesi her durumda görünür kalır",
+            "Yalnızca hover ile açığa çıkan nav kabul edilmez; klavye ve dokunma eşitliği zorunludur"
+          ],
+          "performanceNotes": [
+            "Scroll'a tepki veren nav için IntersectionObserver kullanılır, scroll handler değil",
+            "Nav durum değiştirirken CLS üretmez; yükseklik ayrılır veya üstüne biner",
+            "Kalıcı barda backdrop-filter mobilde sürekli compositing maliyetidir; gerekçelenir veya kaldırılır",
+            "Nav varsayılan durumunda JS olmadan kullanılabilir olmalıdır"
+          ],
+          "templateRisk": "Birinci risk: sticky, yarı saydam, blur'lu bar; solda logo, ortada linkler, sağda pill CTA. Kaynak kütüphanelerin kutudan çıkan varsayılanıdır (CLAUDE.md §5) ve §2'yi ihlal eder; ayrıca o CTA hero'nun giriş noktasıyla yarışır. İkinci risk: 'sessizlik'in yetersiz kontrast veya gizlenmiş nav için bahane olması. Denetim: sessizlik yalnızca bir ağırlık kararıdır, kontrast veya ulaşılabilirlik kararı değil.",
+          "customizationAxes": [
+            "İstirahatteki ağırlık",
+            "Konum ve yönelim",
+            "Kalıcılık davranışı",
+            "Açığa çıkarma mekanizması",
+            "Mevcut konumun ifade biçimi",
+            "Hero ile ilişki",
+            "Marka işaretinin katılımı",
+            "Etkileşimde kazanılan ağırlığın miktarı"
+          ],
+          "antiPattern": "Varsayılan sticky glassmorphic header: ortalanmış linkler, sağda kontrastlı pill CTA, scroll'da beliren gölge. Markadan hiçbir şey taşımaz, mobilde sürekli blur maliyeti üretir ve hero'nun birincil eylemini ikinci kez göstererek odağı böler.",
+          "variationLogic": "Sessizliğin tek bir biçimi yoktur: köşede yalnızca tipografiden ibaret bir nav; niyet sinyaliyle açığa çıkan bir nav; hero kompozisyonuna dahil olup scroll'da ayrılan bir nav; kenar boşluğunda dikey bir nav. Pattern nav'ın nerede durduğunu değil, istirahatte ne kadar dikkat talep edebileceğini sabitler.",
+          "selectionSignals": [
+            "Lock içeriği ve imagery'yi chrome'un önüne koyuyor",
+            "Nav kümesi küçük ve sabit",
+            "Lock restrained / premium / editorial register'ı belirtiyor",
+            "Lock sticky veya blur chrome'u reddediyor",
+            "Birincil CTA hero'ya ait"
+          ],
+          "rejectionSignals": [
+            "Lock sürekli görünür utility eylemleri şart koşuyor",
+            "IA derin veya arama öncelikli",
+            "Nav durum veya bildirim göstermek zorunda",
+            "Lock nav içinde belirgin bir CTA şart koşuyor",
+            "Kitle görev odaklı; sayfa bir araç",
+            "Üst seviye öğe sayısı taranabilir sınırın üstünde"
+          ]
+        }
+      },
+      "files": [
+        {
+          "path": "navigation/quiet-premium-navigation.md",
+          "type": "registry:file",
+          "target": "~/.doveify/patterns/quiet-premium-navigation.md"
+        }
+      ]
+    },
+    {
+      "name": "display-body-contrast",
+      "type": "registry:item",
+      "title": "Display / Body Contrast",
+      "description": "İki tipografik register arasında ölçekte ve en az bir boyutta daha bilinçli mesafe kurarak sayfaya ses veren tarif.",
+      "author": "Doveify <https://github.com/iodagliemre/doveify-web-system>",
+      "categories": ["pattern", "typography"],
+      "meta": {
+        "doveify": {
+          "kind": "pattern",
+          "version": 1,
+          "category": "typography",
+          "problem": "Display ve body aynı skaladan türetildiğinde sayfanın sesi olmaz; her şey tek tonda okunur ve hiyerarşiyi taşıma yükü sözcüklerden kutulara ve renge kayar.",
+          "useWhen": [
+            "İçerikte gerçek iki seviyeli ses var: iddialar ve onları açan metin",
+            "Tipografinin marka karakterini taşıması bekleniyor",
+            "Sayfada okumak gerçek bir eylem",
+            "Lock birden fazla face veya gerçek aralığı olan variable family sağlıyor"
+          ],
+          "avoidWhen": [
+            "Yoğun bilgi veya veri arayüzü; tekdüze okunabilirlik sesten değerli",
+            "İçerik ağırlıklı olarak kısa ve eşit etiketlerden oluşuyor",
+            "Display muamelesinin taşımayacağı yazı sistemlerine lokalizasyon var",
+            "Tek face'e izin var ve kullanılabilir display aralığı yok",
+            "İçerik uzunluğu öngörülemiyor ve display satırları kırılacak"
+          ],
+          "designLockInputs": [
+            "İzin verilen display ve body face'leri",
+            "İki register arasındaki minimum karşıtlık oranı",
+            "İzin verilen skala adımları",
+            "Karşıtlığın ölçek dışında kullanabileceği boyutlar",
+            "Body ölçüsü (measure) sınırları",
+            "Minimum body punto tabanı",
+            "Ara register'a izin verilip verilmediği"
+          ],
+          "responsivePrinciple": "Değişmeyen, iki register arasındaki karşıtlık oranıdır; ikisinin de mutlak boyutu değil. Genişlik daraldıkça display body'den daha hızlı sıkışır; body'nin okunabilirlik tabanı asla delinmez. Oran korunamıyorsa karşıtlık düzleşmez, ölçek dışı bir boyuta taşınır.",
+          "accessibilityNotes": [
+            "Görsel register semantik seviyenin yerine geçmez; display gibi görünen satır ancak gerçekten başlıksa h1'dir",
+            "Body lock'un minimum puntosunun altına inmez; satır yüksekliği ve ölçü okunabilir kalır",
+            "Karşıtlık bir tipografi kararıdır, renk kararı değil; display de WCAG AA sağlar",
+            "Kullanıcı font boyutu tercihi korunur; göreli birim kullanılır",
+            "Uç tracking ve uç ağırlık body'ye uygulanmaz",
+            "Büyük harf dönüşümü CSS ile yapılır, kaynak metinde değil"
+          ],
+          "performanceNotes": [
+            "Tek bir variable family çoğu durumda aynı karşıtlığı tek yükle verir",
+            "Akışkan display ölçeklendirmesi için metrik uyumlu fallback ve bilinçli font-display zorunludur",
+            "Display face yalnızca display ölçeğinde kullanılan karakterlere subset edilir",
+            "Kullanılmayan ağırlıklar paketlenmez"
+          ],
+          "templateRisk": "Birinci risk: tek sans, dört punto, başlıklar bold — sesi olmayan sayfa. İkinci ve bugün daha yaygın risk: devasa sıkı tracking'li geometrik sans başlık + gri body; bu da bir şablondur ve CLAUDE.md §2'deki 'template hissi veren tekrar' maddesine girer. Denetim: karşıtlık en az iki boyutta alınmış bir karar olmalı ve markaya izlenebilmelidir.",
+          "customizationAxes": [
+            "Karşıtlığı taşıyan boyutlar (ölçek, ağırlık, genişlik, case, tracking, stil, aile)",
+            "Mesafenin büyüklüğü",
+            "Display'in ayrı face mi aynı ailenin uçları mı olduğu",
+            "Mesafenin köprülenip köprülenmediği; ara register var mı",
+            "Body ölçüsü ve dikey ritmi",
+            "Display'in satır kırma ve hizalama davranışı"
+          ],
+          "antiPattern": "İki biçim: (1) 'tek sans, dört punto, başlıklar bold' — hiyerarşi kart kenarlıklarına ve renkli rozetlere devredilir; (2) 'devasa sıkı başlık + gri body' — ses var gibi görünür ama ödünç alınmıştır, marka değil dönem taşır.",
+          "variationLogic": "Mesafe radikal biçimde farklı malzemelerden kurulabilir: nötr sans body'ye karşı karakterli serif display; tek variable ailenin ağırlık ve genişlik uçları; küçük ama ayırt edici bir display muamelesine karşı cömert body. Sabit olan mesafenin varlığı ve gerekçesidir, malzeme değil.",
+          "selectionSignals": [
+            "Lock birden fazla face veya gerçek aralığı olan variable family tanımlıyor",
+            "Lock tipografiyi marka taşıyıcısı olarak konumluyor",
+            "İçerikte büyük dizilmeye değer iddialar var",
+            "Lock bir okuma ölçüsü tanımlıyor",
+            "Lock display için gerçek bir ölçek bütçesi ayırıyor"
+          ],
+          "rejectionSignals": [
+            "Lock tek ve dar aralıklı bir face'e izin veriyor",
+            "İçerik tekdüze yoğun veya tablosal",
+            "Lock display ölçeğini body'ye yakın bir tavanla sınırlıyor",
+            "Ürün veri odaklı; okuma ikincil",
+            "Display face'in karşılamadığı çok yazı sistemli lokalizasyon var"
+          ]
+        }
+      },
+      "files": [
+        {
+          "path": "typography/display-body-contrast.md",
+          "type": "registry:file",
+          "target": "~/.doveify/patterns/display-body-contrast.md"
+        }
+      ]
+    },
+    {
+      "name": "compositional-image-treatment",
+      "type": "registry:item",
+      "title": "Compositional Image Treatment",
+      "description": "Her görselin kompozisyonda hangi yapısal işi yaptığını beyan etmesini zorunlu kılan; rolü olmayan görseli kaldıran imagery tarifi.",
+      "author": "Doveify <https://github.com/iodagliemre/doveify-web-system>",
+      "categories": ["pattern", "imagery"],
+      "meta": {
+        "doveify": {
+          "kind": "pattern",
+          "version": 1,
+          "category": "imagery",
+          "problem": "Dekor olarak kullanılan görsel sayfaya ağırlık ve yükleme süresi ekler, anlam eklemez. Görsel kompozisyonda yapısal bir iş yapmalı ya da orada bulunmamalıdır.",
+          "useWhen": [
+            "Görsel gerçekten mesajın parçası (ürün, mekân, kişi, yapılan iş)",
+            "Görsel kalitesi ve art direction kontrol edilebiliyor",
+            "Kompozisyonda görselin dolduracağı tanımlı bir rol var",
+            "Performans bütçesi görseli rolünün gerektirdiği ölçekte taşıyabiliyor"
+          ],
+          "avoidWhen": [
+            "Elde yalnızca jenerik stok var",
+            "Görseller kullanıcı üretimli; kadraj ve kalite öngörülemiyor",
+            "Performans bütçesi rolün gerektirdiği ölçeği kaldırmıyor",
+            "İçerik tipografiyle veya diyagramla daha iyi anlatılıyor",
+            "Görselin rolü sorulduğunda cevap 'boşluğu dolduruyor'"
+          ],
+          "designLockInputs": [
+            "İzin verilen görsel rolleri",
+            "İzin verilen kadrajlar ve en-boy oranları",
+            "Görselin container'ı taşıp taşamayacağı (bleed)",
+            "Muamele kuralları (duotone, grain, yok)",
+            "Odak noktası politikası",
+            "Görselin metin taşıyıp taşıyamayacağı",
+            "Sayfa başına asset ağırlık bütçesi ve görsel adedi"
+          ],
+          "responsivePrinciple": "Değişmeyen görselin rolüdür, kadrajı değil. Genişlik değiştiğinde aynı çerçeve tekdüze küçültülmez; kadraj ve oran değişerek odak ilişkisi korunur. Bir rol belirli bir ölçekte taşınamıyorsa görsel küçültülüp dekora çevrilmez, kaldırılır.",
+          "accessibilityNotes": [
+            "Kompozisyonda iş yapan görsel içeriktir: neye katkı verdiğini anlatan gerçek alt alır",
+            "Saf dekoratif görsel bu pattern'in mantığına göre zaten sayfada bulunmamalıdır",
+            "Görsel üzerine metinde kontrast gerçek örtüşme bölgesine göre her breakpoint'te ölçülür",
+            "Zorunlu metin görselin içine gömülmez",
+            "Duotone veya overlay kontrastı AA'nın altına indiremez",
+            "Görselde geçiş varsa prefers-reduced-motion uygulanır",
+            "Odak noktası kırpması anlamı değiştirmez"
+          ],
+          "performanceNotes": [
+            "Kompozisyonel görsel genelde LCP'dir: önceliklendirilir, katlama üstünde lazy-load edilmez",
+            "width/height veya aspect-ratio her zaman bildirilir; CLS ≈ 0",
+            "Art-directed kadrajlar picture veya srcset gerektirir; tek asset'i CSS ile kırpmak bayt ve anlam israfıdır",
+            "Teslim edilen en büyük varyant render edilen en büyük kutuyla eşleşir",
+            "Grain ve duotone'un CSS/SVG filtresiyle yapılması sürekli paint maliyetidir",
+            "5 MiB üstü kaynak dosyalar registry üzerinden dağıtılamaz (ADR-001)"
+          ],
+          "templateRisk": "Birinci risk: eşit boyutlu yuvarlatılmış köşeli görsellerin kart ızgarası veya gradient blob üzerinde gölgeli ürün ekran görüntüsü — CLAUDE.md §2'yi doğrudan ihlal eder. İkinci ve bu pattern'e özgü risk: 'kompozisyonel' sıfatının her yere full-bleed fotoğraf koyup üstüne metin yığmanın ruhsatına dönüşmesi. Denetim: her görselin yazılı bir rolü olmalı; rol 'boşluğu dolduruyor' ise görsel kaldırılır.",
+          "customizationAxes": [
+            "Rol (odak / kenar tanımlayıcı / ölçek kurucu / doku / kanıt)",
+            "Kadraj ve en-boy oranı",
+            "Container ile ilişki (içinde, taşan, üste binen, maskelenmiş)",
+            "Muamele",
+            "Görselin tipografiyle etkileşimi",
+            "Sayfanın taşıyabileceği görsel sayısı",
+            "Odak noktasının kompozisyondaki konumu"
+          ],
+          "antiPattern": "İki biçim: (1) yuvarlatılmış köşeli stok fotoğraf kart ızgarası — hiçbir görselin rolü yok, hepsi birbirinin yerine geçebilir; (2) gradient blob üzerinde yüzen gölgeli ürün ekran görüntüsü — bayt ekler, anlam eklemez, LCP'yi geciktirir.",
+          "variationLogic": "Sabit olan rol disiplinidir, ifade serbesttir. Aynı pattern bir section'ın kenarını tanımlayan tek full-bleed görsel, büyük tipografinin yanında ölçek kuran küçük ve kesin bir görsel, veya kanıt taşıyan bir görsel dizisi üretebilir. İki proje disiplini paylaşır, görüntüyü değil.",
+          "selectionSignals": [
+            "Lock gerçek art direction veya kontrollü asset kütüphanesi sağlıyor",
+            "İçerik somut şeylerle ilgili",
+            "Lock gerçek bir görsel bütçesi ayırıyor",
+            "Lock bleed'e ve asimetrik kadraja izin veriyor",
+            "Lock bir odak noktası politikası tanımlıyor"
+          ],
+          "rejectionSignals": [
+            "Lock imagery'yi yasaklıyor veya illüstrasyon ya da yalnızca tipografi diyor",
+            "Elde yalnızca jenerik stok var",
+            "Lock tekdüze kart ızgarası şart koşuyor",
+            "Performans bütçesi rolün gerektirdiği ölçeği kaldırmıyor",
+            "Görseller kullanıcı üretimli ve öngörülemez",
+            "Asset'ler 5 MiB üstü ve alternatif dağıtım yolu yok"
+          ]
+        }
+      },
+      "files": [
+        {
+          "path": "imagery/compositional-image-treatment.md",
+          "type": "registry:file",
+          "target": "~/.doveify/patterns/compositional-image-treatment.md"
+        }
+      ]
+    }
+  ]
 }

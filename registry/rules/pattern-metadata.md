@@ -1,4 +1,4 @@
-# Doveify — Pattern Metadata Standardı (v1)
+# Doveify — Pattern Metadata Standardı (v1.1)
 
 **Kaynak:** Doveify Web System · `@doveify/pattern-metadata`
 **Üstünde:** `.doveify/rules/core.md` §1 otorite sırası geçerlidir.
@@ -51,8 +51,11 @@ kaydından geçer.
 
 ## 3. Zorunlu Metadata Alanları
 
-Her pattern aşağıdaki **11 alanın tamamını** taşımak zorundadır. Boş bırakılan alan
+Her pattern aşağıdaki **15 alanın tamamını** taşımak zorundadır. Boş bırakılan alan
 "yok" anlamına gelmez; pattern eksiktir ve sisteme alınmaz.
+
+İlk 11 alan pattern'in **kendisini** tanımlar; son 4 alan (v1.1'de eklendi) pattern'in
+**seçilmesini ve şablona kaymamasını** yönetir.
 
 | Alan | Tip | Anlamı |
 |---|---|---|
@@ -67,6 +70,10 @@ Her pattern aşağıdaki **11 alanın tamamını** taşımak zorundadır. Boş b
 | **PERFORMANCE NOTES** | string[] | Bu pattern'e özgü performans riskleri |
 | **TEMPLATE RISK** | string | Nerede şablona dönüşür, nasıl engellenir |
 | **CUSTOMIZATION AXES** | string[] | Hangi eksenlerde serbest varyasyon var |
+| **ANTI-PATTERN** | string | Hangi jenerik AI/template davranışını önlüyor |
+| **VARIATION LOGIC** | string | Aynı görünümü tekrar üretmeden hangi eksenlerde değişir |
+| **SELECTION SIGNALS** | string[] | DESIGN-LOCK'taki hangi sinyaller bu pattern'e yöneltir |
+| **REJECTION SIGNALS** | string[] | Hangi sinyaller varsa bu pattern seçilmemeli |
 
 ### Alan yazım kuralları
 
@@ -87,6 +94,20 @@ uyguladığı denetimdir; boş geçilemez.
 
 **CUSTOMIZATION AXES** — serbestlik alanı. Bu eksenler dışında sabitlenen her şey
 gerekçelenmelidir.
+
+**ANTI-PATTERN** — somut ve tanınabilir olmalı. "Kötü tasarım" değil, üretimde gerçekten
+karşılaşılan biçim: neye benzediği, neden yaygın olduğu, neyi bozduğu. TEMPLATE RISK
+pattern'in **kendi** kayma riskini, ANTI-PATTERN pattern'in **önlediği** dışsal
+davranışı tarif eder; ikisi aynı şey değildir.
+
+**VARIATION LOGIC** — pattern'i iki farklı projede uygulamanın neden iki farklı görüntü
+üretmesi gerektiğini açıklar. En az iki birbirine benzemeyen sonuç örneklenmelidir.
+Örnek verilemiyorsa pattern muhtemelen bir şablondur.
+
+**SELECTION SIGNALS / REJECTION SIGNALS** — DESIGN-LOCK'ta **gözlemlenebilir** sinyaller.
+"Uygun göründüğünde" sinyal değildir. İkisi birbirinin değili olmamalı; rejection
+sinyalleri bağımsız olarak da doğru olabilmelidir. Bir rejection sinyali varsa pattern
+seçilmez — selection sinyalleri ne kadar güçlü olursa olsun.
 
 ---
 
@@ -115,7 +136,11 @@ Metadata, registry item'ının `meta.doveify` bloğunda taşınır. Kategori ayr
       "accessibilityNotes": ["<yükümlülük>"],
       "performanceNotes": ["<risk>"],
       "templateRisk": "<risk ve engelleme>",
-      "customizationAxes": ["<eksen>"]
+      "customizationAxes": ["<eksen>"],
+      "antiPattern": "<önlenen jenerik davranış>",
+      "variationLogic": "<hangi eksenlerde farklılaşır>",
+      "selectionSignals": ["<lock sinyali>"],
+      "rejectionSignals": ["<lock sinyali>"]
     }
   },
   "files": [
@@ -156,9 +181,11 @@ değer `hero/<name>.md` biçimindedir. `target` ise her zaman tüketici proje k�
 Bir pattern sisteme alınmadan önce:
 
 1. `core.md` §4 değerlendirmesi yapıldı (VALUE / USE CASE / COST / RISK / DECISION)
-2. 11 alanın tamamı dolduruldu
+2. 15 alanın tamamı dolduruldu
 3. §1 testi geçildi — dosya okunduğunda tek bir sabit görüntü dayatmıyor
 4. TEMPLATE RISK alanı `core.md` §2'deki en az bir maddeye açıkça bağlandı
-5. `shadcn registry validate` temiz geçti
+5. VARIATION LOGIC en az iki birbirine benzemeyen sonuç örnekledi
+6. SELECTION ve REJECTION sinyalleri gözlemlenebilir; biri diğerinin değili değil
+7. `shadcn registry validate` temiz geçti
 
-Bu beşi tamamlanmadan pattern `registry.json`'a eklenmez.
+Bu yedisi tamamlanmadan pattern `registry.json`'a eklenmez.
