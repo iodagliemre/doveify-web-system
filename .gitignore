@@ -1,0 +1,104 @@
+# Doveify Web System — .gitignore
+
+# ---------------------------------------------------------------
+# Dependencies
+# ---------------------------------------------------------------
+node_modules/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# ---------------------------------------------------------------
+# Environment
+# ---------------------------------------------------------------
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# ---------------------------------------------------------------
+# Build / output
+# ---------------------------------------------------------------
+.next/
+out/
+build/
+dist/
+.vercel/
+.netlify/
+.output/
+.svelte-kit/
+storybook-static/
+
+# ---------------------------------------------------------------
+# Cache
+# ---------------------------------------------------------------
+.cache/
+.turbo/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
+next-env.d.ts
+
+# ---------------------------------------------------------------
+# Test / coverage / analiz
+# ---------------------------------------------------------------
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+blob-report/
+.playwright/
+lighthouse-report*
+*.lcov
+
+# ---------------------------------------------------------------
+# Loglar
+# ---------------------------------------------------------------
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# ---------------------------------------------------------------
+# OS gecici dosyalari
+# ---------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# ---------------------------------------------------------------
+# Editor / IDE
+# ---------------------------------------------------------------
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json.example
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-workspace
+*.sublime-project
+.history/
+
+# ---------------------------------------------------------------
+# Claude Code — yerel oturum verisi paylasilmaz
+# ---------------------------------------------------------------
+.claude/settings.local.json
